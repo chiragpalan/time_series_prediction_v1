@@ -1,36 +1,30 @@
 import yfinance as yf
+import pandas as pd
 import sqlite3
 from datetime import datetime
 
-# Create or connect to an SQLite database
-conn = sqlite3.connect('stocks_data.db')
-cursor = conn.cursor()
+# Database path (in the same repository)
+DATABASE_PATH = "stock_data.db"
 
-# Create tables if they don't exist
-cursor.execute('''CREATE TABLE IF NOT EXISTS Reliance (
-                    Date TEXT PRIMARY KEY, Open REAL, High REAL, Low REAL, Close REAL, Volume INTEGER)''')
+# Connect to the SQLite database
+conn = sqlite3.connect(DATABASE_PATH)
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS TCS (
-                    Date TEXT PRIMARY KEY, Open REAL, High REAL, Low REAL, Close REAL, Volume INTEGER)''')
+# Table names
+TABLE_RELIANCE = "reliance_data"
+TABLE_TCS = "tcs_data"
 
-cursor.execute('''CREATE TABLE IF NOT EXISTS Infosys (
-                    Date TEXT PRIMARY KEY, Open REAL, High REAL, Low REAL, Close REAL, Volume INTEGER)''')
+def fetch_and_store_data(ticker, table_name):
+    # Get data for the last 3 months
+    data = yf.download(ticker, period="3mo")
+    data.reset_index(inplace=True)  # Convert index to 'Date' column
 
-# Function to fetch and insert stock data
-def fetch_and_store(ticker, table_name):
-    data = yf.download(ticker, period='1d', interval='1d')
-    data.reset_index(inplace=True)
-    for _, row in data.iterrows():
-        cursor.execute(f'''INSERT OR REPLACE INTO {table_name} (Date, Open, High, Low, Close, Volume) 
-                           VALUES (?, ?, ?, ?, ?, ?)''',
-                       (row['Date'].strftime('%Y-%m-%d'), row['Open'], row['High'], 
-                        row['Low'], row['Close'], row['Volume']))
-    conn.commit()
+    # Append data to the respective table
+    data.to_sql(table_name, conn, if_exists="append", index=False)
+    print(f"Data for {ticker} stored successfully in {table_name}.")
 
-# Fetch and store data for Reliance, TCS, and Infosys
-fetch_and_store('RELIANCE.NS', 'Reliance')
-fetch_and_store('TCS.NS', 'TCS')
-fetch_and_store('INFY.NS', 'Infosys')
+if __name__ == "__main__":
+    fetch_and_store_data("RELIANCE.NS", TABLE_RELIANCE)
+    fetch_and_store_data("TCS.NS", TABLE_TCS)
 
-# Close the database connection
-conn.close()
+    # Close the database connection
+    conn.close()
