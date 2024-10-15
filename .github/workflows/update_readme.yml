@@ -3,25 +3,35 @@ name: Update README
 on:
   schedule:
     - cron: '0 17 * * *'  # Runs daily at 5 PM UTC (11 PM IST)
-  workflow_dispatch:  # Optional: Allows manual runs
+  workflow_dispatch:  # Allows manual runs
 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Ensures full repository history is fetched
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.8'
+
       - name: Install Dependencies
         run: pip install pandas
+
       - name: Run Python Script
-        run: python read_database.py
-      - name: Commit and Push Changes
+        run: python read_database.py  # Use your script name here
+
+      - name: Pull Latest Changes
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
+
+      - name: Commit and Push Changes
+        run: |
           git add README.md
-          git commit -m "Update README with database content"
-          git push
+          git commit -m "Update README with database content" || echo "No changes to commit"
+          git push origin main
