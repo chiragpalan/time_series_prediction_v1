@@ -33,7 +33,7 @@ for db_url in databases:
     
     # Read and display each table's data (first 5 rows)
     for table in tables:
-        df = pd.read_sql_query(f"SELECT * FROM {table} LIMIT 50;", conn)
+        df = pd.read_sql_query(f"SELECT * FROM {table} ORDER BY date DESC LIMIT 50;", conn)
         markdown_content += f"### {table}\n\n```\n{df.to_string(index=False)}\n```\n\n"
 
     conn.close()
