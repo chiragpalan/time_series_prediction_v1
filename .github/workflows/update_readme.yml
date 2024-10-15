@@ -16,13 +16,16 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: '3.x'
 
       - name: Install Dependencies
         run: pip install pandas
 
       - name: Run Python Script
         run: python read_database.py  # Use your script name here
+
+      - name: Stash Unstaged Changes
+        run: git stash || echo "No changes to stash"
 
       - name: Pull Latest Changes
         run: |
