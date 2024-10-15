@@ -33,6 +33,9 @@ def calculate_pivot_points(df):
 
     # Calculate price_wrt_vol
     df['price_wrt_vol'] = (df['Volume'] - df['Volume'].shift(1)) / (df['Close'] - df['Open'].shift(1))
+
+    # Calculate diff between high and low
+    df["change"] = df["High"] - df["Low"]
     
     return df
 
