@@ -15,7 +15,7 @@ TABLE_TCS = "tcs_data"
 
 def fetch_and_store_data(ticker, table_name):
     # Get data for the last 3 months
-    data = yf.download(ticker, period="3mo")
+    data = yf.download(ticker, period="6mo")
     data.reset_index(inplace=True)  # Convert index to 'Date' column
 
     # Append data to the respective table
