@@ -11,9 +11,9 @@ if response.status_code != 200:
 
 # Step 2: Load the stock_data.db into an in-memory SQLite database
 db_file = io.BytesIO(response.content)
-conn_stock = sqlite3.connect(':memory:')
-with sqlite3.connect(db_file) as f_conn:
-    f_conn.backup(conn_stock)
+conn_stock = sqlite3.connect(':memory:')  # Create an in-memory database
+with sqlite3.connect(db_file) as source_conn:
+    source_conn.backup(conn_stock)  # Backup from downloaded db to in-memory db
 
 # Step 3: Create a new SQLite database to store technical features
 conn_tech = sqlite3.connect('technical_features.db')
@@ -35,7 +35,7 @@ tables = [t[0] for t in cursor.fetchall()]
 for table in tables:
     print(f"Processing: {table}")
 
-    # Load the data from the original database
+    # Load the data from the original in-memory database
     df = pd.read_sql_query(f"SELECT * FROM {table}", conn_stock)
 
     # Calculate SMAs (7, 14, 21, 30 days)
