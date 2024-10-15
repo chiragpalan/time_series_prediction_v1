@@ -5,8 +5,8 @@ import tempfile
 import os
 
 # GitHub URLs for the databases
-URL_DB_A = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/stock_data_A.db"
-URL_DB_B = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/technical_features_B.db"
+URL_DB_A = "https://raw.githubusercontent.com/chiragpalan/time_series_prediction_v1/main/stock_data.db"
+URL_DB_B = "https://raw.githubusercontent.com/chiragpalan/time_series_prediction_v1/main/technical_features.db"
 
 # Helper function to download a file and save it to a temporary location
 def download_db(url):
