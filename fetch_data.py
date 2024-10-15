@@ -26,7 +26,6 @@ if __name__ == "__main__":
     fetch_and_store_data("RELIANCE.NS", TABLE_RELIANCE)
     fetch_and_store_data("TCS.NS", TABLE_TCS)
     fetch_and_store_data("'^NSEI'", TABLE_NIFTY)
-    '^NSEI'
 
 
     # Close the database connection
