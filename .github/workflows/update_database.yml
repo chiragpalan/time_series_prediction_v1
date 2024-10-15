@@ -3,6 +3,7 @@ name: Update Technical Features
 on:
   schedule:
     - cron: '00 17 * * *'  # 10:30 PM IST (17:00 UTC)
+  workflow_dispatch:  # Allows manual trigger
 
 jobs:
   update-db:
