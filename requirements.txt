@@ -3,4 +3,3 @@ pandas
 sqlalchemy
 psycopg2-binary
 requests == 2.20.0
-os
