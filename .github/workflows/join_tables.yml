@@ -3,7 +3,7 @@ name: Join Tables Daily
 on:
   schedule:
     - cron: '30 17 * * *'  # 11:00 PM IST (17:30 UTC)
-
+  workflow_dispatch:  # Allows manual trigger
 jobs:
   join-tables:
     runs-on: ubuntu-latest
