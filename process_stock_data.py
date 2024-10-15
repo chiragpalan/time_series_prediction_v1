@@ -30,6 +30,10 @@ def calculate_pivot_points(df):
     df['Support1'] = 2 * df['Pivot'] - df['High']
     df['Resistance2'] = df['Pivot'] + (df['High'] - df['Low'])
     df['Support2'] = df['Pivot'] - (df['High'] - df['Low'])
+
+    # Calculate price_wrt_vol
+    df['price_wrt_vol'] = (df['Volume'] - df['Volume'].shift(1)) / (df['Close'] - df['Open'].shift(1))
+    
     return df
 
 # Step 5: Process each table and store results in the new database
