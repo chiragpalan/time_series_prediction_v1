@@ -1,7 +1,8 @@
 import sqlite3
 import pandas as pd
 import requests
-import io
+import tempfile
+import os
 
 # Step 1: Download the stock_data.db from GitHub
 url = "https://raw.githubusercontent.com/chiragpalan/time_series_prediction_v1/main/stock_data.db"
@@ -9,13 +10,17 @@ response = requests.get(url)
 if response.status_code != 200:
     raise Exception(f"Failed to download database. Status code: {response.status_code}")
 
-# Step 2: Load the stock_data.db into an in-memory SQLite database
-db_file = io.BytesIO(response.content)
+# Step 2: Write the downloaded data to a temporary file
+with tempfile.NamedTemporaryFile(delete=False) as temp_db_file:
+    temp_db_file.write(response.content)
+    temp_db_file_path = temp_db_file.name  # Save the path of the temporary file
+
+# Step 3: Load the stock_data.db into an in-memory SQLite database
 conn_stock = sqlite3.connect(':memory:')  # Create an in-memory database
-with sqlite3.connect(db_file) as source_conn:
+with sqlite3.connect(temp_db_file_path) as source_conn:
     source_conn.backup(conn_stock)  # Backup from downloaded db to in-memory db
 
-# Step 3: Create a new SQLite database to store technical features
+# Step 4: Create a new SQLite database to store technical features
 conn_tech = sqlite3.connect('technical_features.db')
 
 # Helper function to calculate pivot points and support/resistance levels
@@ -27,7 +32,7 @@ def calculate_pivot_points(df):
     df['Support2'] = df['Pivot'] - (df['High'] - df['Low'])
     return df
 
-# Step 4: Process each table and store results in the new database
+# Step 5: Process each table and store results in the new database
 cursor = conn_stock.cursor()
 cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
 tables = [t[0] for t in cursor.fetchall()]
@@ -60,5 +65,8 @@ for table in tables:
 # Close both connections
 conn_stock.close()
 conn_tech.close()
+
+# Step 6: Clean up the temporary file
+os.remove(temp_db_file_path)
 
 print("Processing completed and technical_features.db created.")
