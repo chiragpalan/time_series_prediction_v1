@@ -1,0 +1,33 @@
+name: Join Tables Daily
+
+on:
+  schedule:
+    - cron: '30 17 * * *'  # 11:00 PM IST (17:30 UTC)
+
+jobs:
+  join-tables:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.8
+
+    - name: Install Dependencies
+      run: |
+        pip install pandas requests
+
+    - name: Run Join Tables Script
+      run: python join_tables.py
+
+    - name: Upload Joined Database to Repository
+      run: |
+        git config --local user.name "github-actions[bot]"
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git add joined_data.db
+        git commit -m "Update joined_data.db"
+        git push
