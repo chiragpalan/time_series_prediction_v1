@@ -17,7 +17,7 @@ jobs:
       - name: Install Dependencies
         run: pip install pandas
       - name: Run Python Script
-        run: python your_script_name.py
+        run: python read_database.py
       - name: Commit and Push Changes
         run: |
           git config --local user.name "github-actions[bot]"
