@@ -36,7 +36,13 @@ def calculate_pivot_points(df):
 
     # Calculate diff between high and low
     df["change"] = df["High"] - df["Low"]
-    
+
+    #creating target variable - as avg of O, H, L, C of next 7 days
+    df["target_n7d"] = (
+                        df[['Open', 'High', 'Low', 'Close']]
+                       .shift(-7)
+                       .mean(axis = 1)
+                        )
     return df
 
 # Step 5: Process each table and store results in the new database
