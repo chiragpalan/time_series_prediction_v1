@@ -25,6 +25,8 @@ conn_tech = sqlite3.connect('technical_features.db')
 
 # Helper function to calculate pivot points and support/resistance levels
 def calculate_pivot_points(df):
+    df.drop_duplicacts(subset = "Date", inplace = True)
+    df = df.sort_values(by='Date', ascending=True)
     df['Pivot'] = (df['High'] + df['Low'] + df['Close']) / 3
     df['Resistance1'] = 2 * df['Pivot'] - df['Low']
     df['Support1'] = 2 * df['Pivot'] - df['High']
@@ -55,7 +57,7 @@ for table in tables:
 
     # Load the data from the original in-memory database
     df = pd.read_sql_query(f"SELECT * FROM {table}", conn_stock)
-
+    
     # Calculate SMAs (7, 14, 21, 30 days)
     df['SMA_7'] = df['Close'].rolling(window=7).mean()
     df['SMA_14'] = df['Close'].rolling(window=14).mean()
