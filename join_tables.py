@@ -46,16 +46,13 @@ for table in tables:
 
     # Load data from both tables
     df_a = pd.read_sql_query(f"SELECT * FROM {table}", conn_a)
+    df_a.drop_duplicates(subset="Date", inplace=True)
     df_b = pd.read_sql_query(f"SELECT * FROM {technical_table}", conn_b)
+    df_b.drop_duplicates(subset="Date", inplace=True)
 
     # Perform an inner join on the 'Date' column (assuming both tables have a 'Date' column)
     joined_df = pd.merge(
         df_a, df_b, on='Date', suffixes=('_A', '_B'), how = "left")
-
-    # Additional code start
-    columns_to_drop = [col for col in joined_df.columns if col.endswith('_A') and col[:-2] in df_b.columns]
-    joined_df.drop(columns=columns_to_drop, inplace=True)
-    # Additional code ends
 
     # Optional: Drop duplicate columns if needed
     columns_to_drop = [col for col in joined_df.columns if col.endswith('_A') and col[:-2] in df_b.columns]
@@ -63,6 +60,7 @@ for table in tables:
 
     # Save the joined table to the new database
     joined_df.to_sql(table, conn_result, if_exists='replace', index=False)
+    
 
 # Close all connections
 conn_a.close()
