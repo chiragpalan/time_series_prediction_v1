@@ -19,7 +19,7 @@ def fetch_and_store_data(ticker, table_name):
     data.reset_index(inplace=True)  # Convert index to 'Date' column
 
     # Append data to the respective table
-    data.to_sql(table_name, conn, if_exists="append", index=False)
+    data.to_sql(table_name, conn, if_exists="replace", index=False)
     print(f"Data for {ticker} stored successfully in {table_name}.")
 
 if __name__ == "__main__":
