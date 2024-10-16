@@ -50,8 +50,12 @@ for table in tables:
 
     # Perform an inner join on the 'Date' column (assuming both tables have a 'Date' column)
     joined_df = pd.merge(
-        df_a, df_b, on='Date', suffixes=('_A', '_B'), how = "left"
-    )
+        df_a, df_b, on='Date', suffixes=('_A', '_B'), how = "left")
+
+    # Additional code start
+    columns_to_drop = [col for col in joined_df.columns if col.endswith('_A') and col[:-2] in df_b.columns]
+    joined_df.drop(columns=columns_to_drop, inplace=True)
+    # Additional code ends
 
     # Optional: Drop duplicate columns if needed
     columns_to_drop = [col for col in joined_df.columns if col.endswith('_A') and col[:-2] in df_b.columns]
