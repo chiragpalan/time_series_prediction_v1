@@ -50,7 +50,7 @@ for table in tables:
 
     # Perform an inner join on the 'Date' column (assuming both tables have a 'Date' column)
     joined_df = pd.merge(
-        df_a, df_b, on='Date', suffixes=('_A', '_B')
+        df_a, df_b, on='Date', suffixes=('_A', '_B'), how = "left"
     )
 
     # Optional: Drop duplicate columns if needed
