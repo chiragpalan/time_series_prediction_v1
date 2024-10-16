@@ -25,7 +25,7 @@ conn_tech = sqlite3.connect('technical_features.db')
 
 # Helper function to calculate pivot points and support/resistance levels
 def calculate_pivot_points(df):
-    df.drop_duplicacts(subset = "Date", inplace = True)
+    df.drop_duplicates(subset = "Date", inplace = True)
     df = df.sort_values(by='Date', ascending=True)
     df['Pivot'] = (df['High'] + df['Low'] + df['Close']) / 3
     df['Resistance1'] = 2 * df['Pivot'] - df['Low']
