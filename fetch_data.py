@@ -28,7 +28,7 @@ if __name__ == "__main__":
     fetch_and_store_data("RELIANCE.NS", TABLE_RELIANCE)
     fetch_and_store_data("TCS.NS", TABLE_TCS)
     fetch_and_store_data('^NSEI', TABLE_NIFTY)
-    fetch_and_store_data("ASIANPAINT.N", TABLE_ASIAN)
+    fetch_and_store_data("ASIANPAINT.NS", TABLE_ASIAN)
     
 
 
