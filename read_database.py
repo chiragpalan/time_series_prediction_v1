@@ -2,6 +2,7 @@ import sqlite3
 import pandas as pd
 import os
 
+# This file is for updating readme file
 # URLs to your GitHub-hosted databases
 databases = [
     "https://raw.githubusercontent.com/chiragpalan/time_series_prediction_v1/main/stock_data.db",
