@@ -13,6 +13,7 @@ conn = sqlite3.connect(DATABASE_PATH)
 TABLE_RELIANCE = "reliance_data"
 TABLE_TCS = "tcs_data"
 TABLE_NIFTY = "nifty_data"
+TABLE_AUROPHARMA =  "auropharma_data"
 def fetch_and_store_data(ticker, table_name):
     # Get data for the last 3 months
     data = yf.download(ticker, period="5y")
@@ -25,7 +26,9 @@ def fetch_and_store_data(ticker, table_name):
 if __name__ == "__main__":
     fetch_and_store_data("RELIANCE.NS", TABLE_RELIANCE)
     fetch_and_store_data("TCS.NS", TABLE_TCS)
+    fetch_and_store_data("AUROPHARMA.NS", TABLE_TCS)
     fetch_and_store_data('^NSEI', TABLE_NIFTY)
+    
 
 
     # Close the database connection
