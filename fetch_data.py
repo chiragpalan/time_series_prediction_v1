@@ -26,7 +26,7 @@ def fetch_and_store_data(ticker, table_name):
 if __name__ == "__main__":
     fetch_and_store_data("RELIANCE.NS", TABLE_RELIANCE)
     fetch_and_store_data("TCS.NS", TABLE_TCS)
-    fetch_and_store_data("AUROPHARMA.NS", TABLE_TCS)
+    fetch_and_store_data("AUROPHARMA.NS", TABLE_AUROPHARMA)
     fetch_and_store_data('^NSEI', TABLE_NIFTY)
     
 
