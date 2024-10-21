@@ -13,6 +13,7 @@ conn = sqlite3.connect(DATABASE_PATH)
 TABLE_RELIANCE = "reliance_data"
 TABLE_TCS = "tcs_data"
 TABLE_NIFTY = "nifty_data"
+TABLE_ASIAN = "asian_data"
 
 def fetch_and_store_data(ticker, table_name):
     # Get data for the last 3 months
