@@ -4,7 +4,7 @@ import sqlite3
 from datetime import datetime
 
 # Database path (in the same repository)
-DATABASE_PATH = "stock_data_1.db"
+DATABASE_PATH = "stock_data.db"
 
 # Connect to the SQLite database
 conn = sqlite3.connect(DATABASE_PATH)
